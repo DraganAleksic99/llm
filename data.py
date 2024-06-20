@@ -102,3 +102,24 @@ dataloader = create_dataloader(
 data_iter = iter(dataloader)
 first_batch = next(data_iter)
 print(first_batch)
+
+# Covert token IDs to token embeddings
+input_ids = [2, 3, 5, 1]
+vocab_size = 6
+output_dim = 3
+
+torch.manual_seed(123)
+embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
+print(embedding_layer.weight)
+print(embedding_layer(torch.tensor([3])))
+
+token_embeddings = embedding_layer(input_ids)
+
+# Create position embeddings
+context_length = 4
+
+pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+pos_embeddings = pos_embedding_layer(torch.arange(context_length))
+
+# Final input embeddings for the LLM
+input_embeddings = token_embeddings + pos_embeddings
